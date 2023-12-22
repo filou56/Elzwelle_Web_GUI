@@ -1,4 +1,4 @@
-# Go WEB GUI Deutsche Version
+# Go WEB GUI
 
 Ein auf der Clientseite auf Javascript basierendes GUI Frontend für Golang.
 ---

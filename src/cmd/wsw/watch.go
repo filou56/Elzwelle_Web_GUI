@@ -104,7 +104,7 @@ func CmdHandler(writer http.ResponseWriter, request *http.Request) {
 	 
 	// ---------------------------------------------------------------------------------------------
 	
-	app_tabs := ui.TabLayout(3, "Start","Ziel","Tabelle")
+	app_tabs := ui.TabLayout(3, "Start","Ziel","Tabelle 1")
  	ui.Root.Add(app_tabs)
  	app_tabs.GetTab(2).CheckTab()
 

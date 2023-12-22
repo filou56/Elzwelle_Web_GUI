@@ -1,0 +1,260 @@
+//	ui.Inject(`
+//		var tabledata = [
+//			{id:1, name:"Oli Bob", age:"12", col:"red", dob:"12/08/2017"},
+//			{id:2, name:"Mary May", age:"1", col:"blue", dob:"14/05/1982"},
+//			{id:3, name:"Christine Lobowski", age:"42", col:"green", dob:"22/05/1982"},
+//			{id:4, name:"Brendon Philips", age:"125", col:"orange", dob:"01/08/1980"},
+//			{id:5, name:"Margret Marmajuke", age:"16", col:"yellow", dob:"31/01/1999"},
+//			{id:6, name:"Oli Bob", age:"12", col:"red", dob:"12/08/2017"},
+//			{id:7, name:"Mary May", age:"1", col:"blue", dob:"14/05/1982"},
+//			{id:8, name:"Christine Lobowski", age:"42", col:"green", dob:"22/05/1982"},
+//			{id:9, name:"Brendon Philips", age:"125", col:"orange", dob:"01/08/1980"},
+//			{id:10, name:"Margret Marmajuke", age:"16", col:"yellow", dob:"31/01/1999"},
+//		];
+//		
+//		var table = new Tabulator("#example-table", {
+//			height:300, 
+//			data:tabledata, 
+//			layout:"fitColumns", 
+//			columns:[ 
+//				{title:"Name", field:"name", sorter:"string", width:150},
+//				{title:"Age", field:"age", sorter:"number", hozAlign:"left", formatter:"progress"},
+//				{title:"Favourite Color", field:"col", sorter:"string", headerSort:false},
+//				{title:"Date Of Birth", field:"dob", sorter:"date", hozAlign:"center"},
+//			],
+//		});
+//		
+//		//trigger an alert message when the row is clicked
+//		table.on("rowClick", function(e, row){
+//			alert("Row " + row.getIndex() + " Clicked!!!!");
+//		});
+//	`);   
+
+--------------------------------------------------------------
+
+//	tl.Add(ui.Label("Page 2"),1)   
+//	la := ui.NewGridLayout(conn, "root", 3, 3)
+//	la := ui.NewGridLayout(conn, t1.GetID(), 3, 3,"col-sm-4","col-sm-4","col-sm-4")
+//	gl.Add(ui.Label("LABEL"), 0,0,"col-sm-2")
+//	em := la.Add(ui.Input("email","me@myself.mail"), 0,1,"col-sm-4")
+//	em := la.Add(ui.Input("email","me@myself.mail"), 0,1)
+//	bs := la.Add(ui.Button("primary","Send"), 0,2,"col-sm-2")
+//	la.Html("HTML", 1,0)
+//	la.Html("<h1>Text</h1>", 1,1,"col-sm-4")
+//	bs.SetOnClick( 
+//		func() {
+//			log.Println("Button Send")
+//			em.GetValue()
+//			log.Println("Value: ",em.Value)
+//		})
+	
+//	t2.SetHtml("Page 2")
+//	t3.SetHtml("Seite 3")
+
+   /*
+	var tb *ui.Widget
+	
+	bi := ui.NewBinding(conn,"root","username","")
+	
+	bu := ui.NewButton(conn,"root","primary","Go Button")
+	bu.SetClass("secondary")
+	bu.SetValue("2nd Button")
+	
+	bu.SetOnClick( 
+		func() {
+			log.Println("Hello from Button 2")
+			bi.GetValue()
+			log.Println("Value: ",bi.Value)
+			tb.SetAlignment(bi.Value)
+		})
+	
+	ui.InjectHtml(conn,ui.GridForm)
+	
+	tb = ui.NewBinding(conn,"root","table_1","")
+	tb.SetAttribute(ui.ALIGN, "left") 
+	
+	tt := ui.NewTable(conn,"root")
+
+	r1  := ui.NewTableRow(conn,tt.GetID())
+	r2  := ui.NewTableRow(conn,tt.GetID())
+	c11 := ui.NewTableCell(conn,r1.GetID())
+	c12 := ui.NewTableCell(conn,r1.GetID())
+	c21 := ui.NewTableCell(conn,r2.GetID())
+	c22 := ui.NewTableCell(conn,r2.GetID())
+
+	ui.NewHtml(conn,c11.GetID(),"Text 1")
+	ui.NewHtml(conn,c12.GetID(),"------------Text 2----------")
+
+	ui.NewHtml(conn,c21.GetID(),"<h1>Text 3</h1>")
+	ui.NewButton(conn,c22.GetID(),"primary","Go")
+	//ui.NewHtml(conn,c22.GetID(),"Text 4")
+	*/
+    /*---------------------------------------------*
+    
+    NewGrid(conn,"root",<row>,<col>,<sz>,<width_1,width_2,....>)
+    CellID(r,c)
+    
+     *---------------------------------------------*/
+//    co := ui.NewContainer(conn,"root")
+//    co.SetHtml("<h1>Grid Test</><br><hr>")
+//    r1 := ui.NewRow(conn,co.GetID())
+//    //r1.SetAttribute(ui.ALIGN, "right")
+//    c11:= ui.NewCol(conn,r1.GetID(),"col-sm-2")
+//    c12:= ui.NewCol(conn,r1.GetID(),"col-sm-4")
+//    c13:= ui.NewCol(conn,r1.GetID(),"col-sm-2")
+//    r2 := ui.NewRow(conn,co.GetID())
+//    c21:= ui.NewCol(conn,r2.GetID(),"col-sm-2")
+//    c22:= ui.NewCol(conn,r2.GetID(),"col-sm-4")
+    
+//  ui.NewHtml(conn,c11.GetID(),"Text 1")
+//	ui.NewHtml(conn,c12.GetID(),"------------Text 2----------")
+
+//	ui.NewLabel(conn,c11.GetID(),"Label 1")
+//	it := ui.NewInput(conn,c12.GetID(),"email","Test 1")
+//	ui.NewHtml(conn,c21.GetID(),"<h1>Text 3</h1>")
+//	bg := ui.NewButtonGroup(conn,c22.GetID())
+//	ui.NewButton(conn,bg.GetID(),"primary","Go")
+//	
+//	bs := ui.NewButton(conn,c13.GetID(),"primary","Send")
+//	
+//	bs.SetOnClick( 
+//		func() {
+//			log.Println("Button Send")
+//			it.GetValue()
+//			log.Println("Value: ",it.Value)
+//		})
+/*
+	tt := ui.NewTabs(conn, "root")
+	t1 := ui.NewTab(conn, tt.GetID(),"Tab1")
+	t2 := ui.NewTab(conn, tt.GetID(),"Tab2")
+	t3 := ui.NewTab(conn, tt.GetID(),"Tab3")
+	t1.CheckTab()
+*/
+
+//func UiHandler(w http.ResponseWriter, r *http.Request) {
+//	log.Print("UI Handler")
+//	
+//	w.Header().Set("Content-Type", "text/html")
+//    fmt.Fprintf(w,"%s",`
+//	<html>
+//    <head>
+//        <link rel="stylesheet" href="/css/mini-dark.css">
+//    </head>
+//    <body>
+//        <form>
+//            <fieldset>
+//                <legend>Aligned form (using grid)</legend>
+//                <div class="row responsive-label">
+//                  <div class="col-sm-12 col-md-3">
+//                    
+//                        <input type="button" class="primary" value="Primary button">
+//                    
+//                  </div>
+//                  <div class="col-sm-12 col-md">
+//                    <input type="number" value="42" id="number" style="width:85%;">
+//                  </div>
+//                </div>
+//                <div class="row responsive-label">
+//                  <div class="col-sm-12 col-md-3">
+//                    <div class="button-group"><input type="button" class="secondary" value="Primary button"></div>
+//                  </div>
+//                  <div class="col-sm-12 col-md">
+//                    <input value="invalid" id="invalid" style="width:85%;">
+//                  </div>
+//                  <script>document.getElementById("invalid").setCustomValidity("This field is invalid");</script>
+//                </div>
+//                <div class="row responsive-label">
+//                  <div class="col-sm-12 col-md-3">
+//                    <label for="disabled">Disabled</label>
+//                  </div>
+//                  <div class="col-sm-12 col-md">
+//                    <input disabled value="disabled" id="disabled" style="width:85%;">
+//                  </div>
+//                </div>
+//                <div class="row responsive-label">
+//                  <div class="col-sm-12 col-md-3">
+//                    <label for="readonly">Readonly</label>
+//                  </div>
+//                  <div class="col-sm-12 col-md">
+//                    <input readonly value="readonly" id="readonly" style="width:85%;">
+//                  </div>
+//                </div>
+//                <div class="row responsive-label">
+//                  <div class="col-sm-12 col-md-3">
+//                    <label for="select">Select</label>
+//                  </div>
+//                  <div class="col-sm-12 col-md">
+//                    <select id="select"> <option>Apples</option> <option>Oranges</option> </select>
+//                  </div>
+//                </div>
+//            </fieldset>
+//        </form>
+//              
+//        <div class="container">
+//          <div class="row">
+//            <div class="col-sm-1">
+//            Test 1
+//            </div>
+//            <div class="col-sm-11">
+//            Test 2
+//            </div>
+//          </div>
+//          <div class="row">
+//            <div class="col-sm-2">
+//            Test 3
+//            </div>
+//            <div class="col-sm-10">
+//            Test 4
+//            </div>
+//          </div>
+//          <div class="row">
+//            <div class="col-sm-3">
+//            Test 5
+//            </div>
+//            <div class="col-sm-9">
+//            Test 6
+//            </div>
+//          </div>
+//          <div class="row">
+//            <div class="col-sm-4">
+//            Test 7
+//            </div>
+//            <div class="col-sm-8">
+//            Test 8
+//            </div>
+//          </div>
+//          <div class="row">
+//            <div class="col-sm-5">
+//            Text 1
+//            </div>
+//            <div class="col-sm-7">
+//            Text 2
+//            </div>
+//          </div>
+//          <div class="row">
+//            <div class="col-sm-6">
+//            Text 3
+//            </div>
+//            <div class="col-sm-6">
+//            Text 4
+//            </div>
+//          </div>
+//          <div class="row">
+//            <div class="col-sm-12">
+//            Text 5
+//            </div>
+//          <div class="row">
+//            <div class="col-sm">
+//            Text 6
+//            </div>
+//            <div class="col-sm">
+//            Text 7
+//            </div>
+//          </div>
+//        </div>
+//
+//    </body>
+//</html>
+//	
+//	`);
+//}

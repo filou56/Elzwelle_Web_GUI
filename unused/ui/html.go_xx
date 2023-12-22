@@ -1,0 +1,16 @@
+package ui
+
+import (
+
+)
+
+func Html(value string) *Widget {
+	var html Widget
+	html.CreateElement(nil,"",
+		func() {
+			html.Send(`document.getElementById("`+html.parent+`").innerHTML += '`+value+`'`)
+		},
+	)
+	html.Value = value
+	return &html
+}

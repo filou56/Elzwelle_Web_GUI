@@ -1,0 +1,12 @@
+http://localhost:1111/ui
+
+Host anpassen in:
+
+server.go	: var addr = flag.String("addr", "localhost:1111", "http service address")
+
+ui.go 		: ws: new WebSocket("ws://localhost:1111/cmd"),
+
+Theme anpasse in:
+
+ui.go		: <link rel="stylesheet" href="/css/mini-lite.css">
+

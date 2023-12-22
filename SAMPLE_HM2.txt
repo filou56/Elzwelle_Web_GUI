@@ -1,0 +1,116 @@
+	ui.Root.SetConnection(conn)
+	ui.Root.Add(ui.Html(`
+		<table>
+			<tr>
+				<td><h1>HM Ulm UI V0.4</h1></td>
+				<td><button class="primary" onclick="window.location.href='https://oranje.filounet.de:3113/ui';">Nach Waldkirch</button></td>
+			</tr>
+		</table>
+	`))
+	//--------------------------------------------
+	 
+	//tl := ui.TabLayout(3, "View","Command","Graph")
+	tl := ui.TabLayout(3, "Messen","Steuern","Graph")
+	ui.Root.Add(tl)
+	tl.GetTab(0).CheckTab()
+	// -----------------------------------------------
+	
+	// ------------------ Grid Layout Page 0 ---------
+	gl_0 := ui.GridLayout(6,2,"col-sm-4","col-sm-8")
+	tl.Add(gl_0,0)
+	gl_0.Add(ui.Label("Temperatur"),1,0,"col-sm-4")
+	gl_0.Add(ui.Label("Luftfeuchte"),2,0,"col-sm-4")
+	gl_0.Add(ui.Label("Sollwert"),3,0,"col-sm-4")
+	gl_0.Add(ui.Label("Datum (RFC850)"),4,0,"col-sm-4")
+	
+	temperature_cell	:= ui.Label("0.0 °C")
+	gl_0.Add(temperature_cell,1,1,"col-sm-8")
+	humidity_cell 		:= ui.Label("00 %")
+	gl_0.Add(humidity_cell,2,1,"col-sm-8")	
+	setpoint_cell	:= ui.Label("0.0 °C")
+	gl_0.Add(setpoint_cell,3,1,"col-sm-8")	
+	date_cell		:= ui.Label("")
+	gl_0.Add(date_cell,4,1,"col-sm-8")
+
+	// ------------------ Grid Layout Page 1 ---------
+	gl_1 := ui.GridLayout(2,3,"col-sm-4","col-sm-4","col-sm-4")
+	tl.Add(gl_1,1)
+	gl_1.Add(ui.Label("Sollwert"),0,0,"col-sm-4")
+	setpoint_input := gl_1.Add(ui.Input("number","20,0","step=0.5 min=18 max=24"),0,1)
+	
+	bs := gl_1.Add(ui.Button("primary","Speichern",1),0,2)
+	gl_1.Cell(0,2).AddClass("col-sm-4")
+
+	gl_1.Add(ui.Label("Passwort"),1,0,"col-sm-4")
+	pw := gl_1.Add(ui.Input("password","",""),1,1)
+	
+	bs.SetOnClick( 
+		func() {
+			log.Println("Button Send")
+			setpoint_input.GetValue()
+			pw.GetValue()
+			log.Println("Value: ",setpoint_input.Value)
+			if pw.Value == "Sesam" {
+				bs.SetClass("")
+				bs.SetDisabled(true)
+				mqtt.Receipt = "Pending"
+				mqtt.Timeout = 2
+				payload := fmt.Sprintf(`{"Setpoint":%s,"Password":"%s"}`,setpoint_input.Value,pw.Value)
+				mqtt.Send <- mqtt.Message{"hm/controller",payload}
+			} else {
+				log.Println("Passwort ?")
+				mqtt.Receipt = "Password"
+				mqtt.Timeout = 5
+				ui.Update <- 0
+			}
+		},
+	)
+	
+	// 24h <=> 86400 seconds 24*60*60
+	
+	now := time.Now().Unix()
+	intervall := now - 6*60*60
+	// ------------------ Grid Layout Page 2 ---------
+	svgPlot 	:= ui.Html(ui.Plot("Temperatur Wohnzimmer",Query("temperature",1000,intervall),"set xtics 3600","set yrange [16:24]") +
+						   ui.Plot("Luftfeuchte Wohnzimmer",Query("humidity",1000,intervall),"set xtics 3600","set yrange [10:90]") +
+						   ui.Plot("Sollwert Wohnzimmer",Query("setpoint",1000,intervall),"set xtics 3600","set yrange [16:24]") +
+						   ui.Plot("Ventil Wohnzimmer",Query("state",1000,intervall),"set xtics 3600","set yrange [0:1]") )
+	tl.Add(svgPlot,2)
+	
+	done := make(chan bool)
+	
+	go EventHandler(conn,done)
+	
+	for {
+		select {
+			case <- ui.Update:
+				if mqtt.Receipt == "Accept" {
+					bs.SetClass("tertiary")
+					bs.SetValue("Accept...")
+					mqtt.Receipt = "Done"
+					mqtt.Timeout = 2
+				} else if mqtt.Receipt == "Password" {
+					bs.SetClass("secondary")
+					bs.SetValue("Passwort ?")
+					mqtt.Receipt = "Done"
+					mqtt.Timeout = 2
+				}
+			case <- idleEvent:
+				temperature_cell.SetHtml(fmt.Sprintf("%2.1f",mqtt.Temperature))
+				humidity_cell.SetHtml(fmt.Sprintf("%2.1f",mqtt.Humidity))
+				setpoint_cell.SetHtml(fmt.Sprintf("%2.1f",mqtt.Setpoint))
+				date_cell.SetHtml(fmt.Sprintf("%s",mqtt.RFC850))
+				
+				//setpoint_input.SetValue(fmt.Sprintf("%2.1f",mqtt.Setpoint))
+				
+				if mqtt.Timeout <= 0 {
+					bs.SetClass("primary")
+					bs.SetValue("Speichern")
+					bs.SetDisabled(false)
+				} else {
+					mqtt.Timeout--
+				}
+			case <-done:
+			   break
+		}
+	}

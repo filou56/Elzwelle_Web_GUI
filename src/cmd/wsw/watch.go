@@ -7,7 +7,7 @@ import (
 	"github.com/gorilla/websocket"
 	"ui"
 	"time"
-	"sysinfo"
+//	"sysinfo"
 	"strconv"
 )
 
@@ -22,12 +22,16 @@ var (
 	start_number 	int
 	start_id		int
 	finish_id 		int
+	
+	baseTime		time.Time
 )
 
 func init() {
 	start_number 	= 0
 	start_id		= 0
 	finish_id 		= 0
+	
+	baseTime = time.Now()
 }
 
 func nextId() string {
@@ -35,12 +39,35 @@ func nextId() string {
 	return fmt.Sprintf("%3d",start_number);	
 }
 
+/*
+
+
+The monotonic clock is just used for differences between times. 
+The absolute value of the monotonic clock is undefined and you 
+should not try to get it. I think what you really want for your 
+timestamp is the duration from a base time.
+
+func init() {
+    baseTime = time.Now()
+}
+
+// NowTimestamp returns really just the duration from the base time
+func NowTimestamp() time.Duration {
+    return time.Now().Sub(baseTime)
+}
+
+*/
+
 func millis( clock time.Duration ) int64 {
 	return int64(clock)/1000000	
 }
 
+//func uptime() time.Duration {
+//	return sysinfo.Get().Uptime	
+//}
+
 func uptime() time.Duration {
-	return sysinfo.Get().Uptime	
+    return time.Now().Sub(baseTime)
 }
 
 func timestamp(now time.Time, stamp int64) string {
